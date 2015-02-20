@@ -59,7 +59,7 @@ public class GameEnvironment extends JFrame {
     boolean aBroom = false;
    	int nBroom = 10;
     Broom broom = new Broom();
-    int nNet = 10;
+    int nNet = 100;
     Net net = new Net();
     boolean aNet = false;
     private boolean gameover = false;
@@ -175,9 +175,6 @@ public class GameEnvironment extends JFrame {
 	    URL trainURL = getClass().getResource("graphics/tright.png");//train
 	    trainIM = new ImageIcon(trainURL).getImage();
 		    
-	    URL animalURL = getClass().getResource("graphics/canvas.png");//cat
-	    animalIM = new ImageIcon(animalURL).getImage();
-	
 	    URL zooURL = getClass().getResource("graphics/pokeCenter.jpg");//zoo
 	    zooIM = new ImageIcon(zooURL).getImage();
 	    
@@ -203,13 +200,11 @@ public class GameEnvironment extends JFrame {
 		g.drawImage(zooIM, zooX, zooY,this);
 		//train.getTA().add(new Animal());
 		for (int i=0; i<train.getTA().size(); i++){
-		    URL aURL = getClass().getResource("graphics/cleft.png");//cat left
-		    Image aIM = new ImageIcon(aURL).getImage();
 		    if (train.getLeft()){ // change to tailArray.get(i).getIM(); both left and right
-				g.drawImage(aIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
+				g.drawImage(train.getTA().get(i).getIM(), train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
 		    }
 		    else{
-				g.drawImage(animalIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
+				g.drawImage(train.getTA().get(i).getIM(), train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
 		    }
 		}
 		if (aBroom == true){
@@ -224,93 +219,96 @@ public class GameEnvironment extends JFrame {
 		
 	void gameLogic(){//void gameLogic(int pauseDelay) throws InterruptedException {
 	    if(gameover == false && pause == false) {
-		// checks if train crosses paths with zoo and clears tailArray
-		if ((zooX - zWidth/2) < train.getX() && (train.getX() < (zooX + zWidth/2)) 
-		    && (train.getY() > zooY - zHeight/2) && (train.getY() < zooY + zHeight/2)){
-		   int n = train.getTA().size();
-		   train.getTA().clear();
-		   train.incShift();
-		   total += n;
-		   score += n;
-		}
-				
-		// checks if train crosses paths with tail & stops game
-		for(int i = 0; i < train.getTA().size(); i++) {
-		    if(train.getX() == train.getTA().get(i).getX() && train.getY() == train.getTA().get(i).getY()) {
-				gameover = true;
-		    }
-		}
-		
-		// check if net crosses path with animal - clear animal
-		for(int i = 0; i < animalArray.size(); i++) {					
-		    if ((animalArray.get(i).getX() - pWidth/2) < net.getX() && (net.getX() < (animalArray.get(i).getX() + pWidth/2)) 
-			&& (net.getY() > animalArray.get(i).getY() - pHeight/2) && (net.getY() < animalArray.get(i).getY() + pHeight/2)){						
-				if (!animalArray.get(i).isDead()){
-					animalArray.get(i).setX(2000);
-					animalArray.get(i).setY(2000);
-					score++;
-					int n = train.getTA().size();
-					addNewTailAnimal(new Penguin());
-					if (n==0){
-						train.getTA().get(n).setX(train.getX());
-						train.getTA().get(n).setY(train.getY());
+			// checks if train crosses paths with zoo and clears tailArray
+			if ((zooX - zWidth/2) < train.getX() && (train.getX() < (zooX + zWidth/2)) 
+				&& (train.getY() > zooY - zHeight/2) && (train.getY() < zooY + zHeight/2)){
+			   int n = train.getTA().size();
+			   train.getTA().clear();
+			   train.incShift();
+			   total += n;
+			   score += n;
+			   
+			   // if all animals are collected
+				if (numAnimals == total){ 
+					animalArray.clear();
+					trashArray.clear();
+					total = 0;
+					numAnimals+=5;
+					numTrash+=2;
+					for(int i = 0; i < numAnimals; i++) {
+						addNewBoardAnimal();
 					}
-					else{
-						train.getTA().get(n).setX(train.getTA().get(n-1).getX());
-						train.getTA().get(n).setY(train.getTA().get(n-1).getY());
+					for(int i = 0; i < numTrash; i++) {
+						addNewTrash();
 					}
 				}
 			}
-		}
-		
-		// check if broom crosses path with poo - clear poo
-		for(int i = 0; i < trashArray.size(); i++) {					
-		    if ((trashArray.get(i).getX() - pWidth/2) < broom.getX() && (broom.getX() < (trashArray.get(i).getX() + pWidth/2)) 
-			&& (broom.getY() > trashArray.get(i).getY() - pHeight/2) && (broom.getY() < trashArray.get(i).getY() + pHeight/2)){						
-				trashArray.get(i).setX(2000);
-				trashArray.get(i).setY(2000);
-				score++;
+				
+			// checks if train crosses paths with tail & stops game
+			for(int i = 0; i < train.getTA().size(); i++) {
+				if(train.getX() == train.getTA().get(i).getX() && train.getY() == train.getTA().get(i).getY()) {
+					gameover = true;
+				}
 			}
-		}
 		
-		// checks if train crosses paths with poo
-		for(int i = 0; i < trashArray.size(); i++) {					
-		    if ((trashArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (trashArray.get(i).getX() + pWidth/2)) 
-			&& (train.getY() > trashArray.get(i).getY() - pHeight/2) && (train.getY() < trashArray.get(i).getY() + pHeight/2)){						
+			// check if net crosses path with animal - clear animal
+			for(int i = 0; i < animalArray.size(); i++) {					
+				if ((animalArray.get(i).getX() - pWidth/2) < net.getX() && (net.getX() < (animalArray.get(i).getX() + pWidth/2)) 
+				&& (net.getY() > animalArray.get(i).getY() - pHeight/2) && (net.getY() < animalArray.get(i).getY() + pHeight/2)){						
+					if (!animalArray.get(i).isDead()){
+						animalArray.get(i).setX(2000);
+						animalArray.get(i).setY(2000);
+						score++;
+						int n = train.getTA().size();
+						addNewTailAnimal(new Penguin());
+						if (n==0){
+							train.getTA().get(n).setX(train.getX());
+							train.getTA().get(n).setY(train.getY());
+						}
+						else{
+							train.getTA().get(n).setX(train.getTA().get(n-1).getX());
+							train.getTA().get(n).setY(train.getTA().get(n-1).getY());
+						}
+					}
+				}
+			}
+		
+			// check if broom crosses path with poo - clear poo
+			for(int i = 0; i < trashArray.size(); i++) {					
+				if ((trashArray.get(i).getX() - pWidth/2) < broom.getX() && (broom.getX() < (trashArray.get(i).getX() + pWidth/2)) 
+				&& (broom.getY() > trashArray.get(i).getY() - pHeight/2) && (broom.getY() < trashArray.get(i).getY() + pHeight/2)){						
+					trashArray.get(i).setX(2000);
+					trashArray.get(i).setY(2000);
+					score++;
+				}
+			}
+		
+			// checks if train crosses paths with poo
+			for(int i = 0; i < trashArray.size(); i++) {					
+				if ((trashArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (trashArray.get(i).getX() + pWidth/2)) 
+				&& (train.getY() > trashArray.get(i).getY() - pHeight/2) && (train.getY() < trashArray.get(i).getY() + pHeight/2)){						
+					gameover = true;
+				} // endif
+			}
+				
+			// checks if train crosses paths with animals
+			for(int i = 0; i < animalArray.size(); i++) {					
+				if ((animalArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (animalArray.get(i).getX() + pWidth/2)) 
+				&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){						
+					if (!animalArray.get(i).isDead()){
+						animalArray.get(i).setURL();
+						animalArray.get(i).setDead();
+						animalArray.get(i).getIM();
+						total++;
+						score--;
+					}
+				} // endif
+			}
+		
+			// checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
+			if(train.getX() > maxX || train.getX() < 0 || train.getY() > maxY || train.getY() < 0) {
 				gameover = true;
-		    } // endif
-		}
-				
-		// checks if train crosses paths with animals
-		for(int i = 0; i < animalArray.size(); i++) {					
-		    if ((animalArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (animalArray.get(i).getX() + pWidth/2)) 
-			&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){						
-				animalArray.get(i).setURL();
-				animalArray.get(i).setDead();
-				animalArray.get(i).getIM();
-		    } // endif
-		}
-		
-		// if all animals are collected
-		if (numAnimals == total){ 
-			animalArray.clear();
-			trashArray.clear();
-			total = 0;
-			numAnimals+=5;
-			numTrash+=2;
-			for(int i = 0; i < numAnimals; i++) {
-				addNewBoardAnimal();
 			}
-			for(int i = 0; i < numTrash; i++) {
-				addNewTrash();
-			}
-		}
-				
-		// checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
-		if(train.getX() > maxX || train.getX() < 0 || train.getY() > maxY || train.getY() < 0) {
-		    gameover = true;
-		}
-
 	    }
 	    if(gameover == true) {
             	timer.stop();
@@ -340,30 +338,22 @@ public class GameEnvironment extends JFrame {
 			if((key == KeyEvent.VK_LEFT) && (!train.getRight())){
 				URL trainURL = getClass().getResource("graphics/tleft.png");
 				trainIM = new ImageIcon(trainURL).getImage();
-				train.setLeft(true);
-				train.setUp(false);
-				train.setDown(false);
+				train.setLeft();
 			}
 			if((key == KeyEvent.VK_RIGHT) && (!train.getLeft())){
 				URL trainURL = getClass().getResource("graphics/tright.png");
 				trainIM = new ImageIcon(trainURL).getImage();
-				train.setRight(true);
-				train.setUp(false);
-				train.setDown(false);
+				train.setRight();
 			}
 			if((key == KeyEvent.VK_UP) && (!train.getDown())){
 				URL trainURL = getClass().getResource("graphics/tup.png");
 				trainIM = new ImageIcon(trainURL).getImage();
-				train.setUp(true);
-				train.setRight(false);
-				train.setLeft(false);
+				train.setUp();
 			}
 			if((key == KeyEvent.VK_DOWN) && (!train.getUp())){
 				URL trainURL = getClass().getResource("graphics/tdown.png");
 				trainIM = new ImageIcon(trainURL).getImage();
-				train.setDown(true);
-				train.setRight(false);
-				train.setLeft(false);
+				train.setDown();
 			}
 			if (key == KeyEvent.VK_SPACE && nBroom > 0){
 				broom.setXY(train.getX(), train.getY());
