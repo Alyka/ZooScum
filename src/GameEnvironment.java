@@ -260,17 +260,31 @@ public class GameEnvironment extends JFrame {
 					gameover = true;
 				}
 			}
+			
+			// checks if train crosses paths with animals
+			for(int i = 0; i < animalArray.size(); i++) {					
+				if ((animalArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (animalArray.get(i).getX() + pWidth/2)) 
+				&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){						
+					if (!animalArray.get(i).isDead()){
+						animalArray.get(i).setURL();
+						animalArray.get(i).setDead();
+						animalArray.get(i).getIM();
+						total++;
+						score--;
+					}
+				} // endif
+			}
 		
 			// check if net crosses path with animal - clear animal
 			for(int i = 0; i < animalArray.size(); i++) {					
 				if ((animalArray.get(i).getX() - pWidth/2) < net.getX() && (net.getX() < (animalArray.get(i).getX() + pWidth/2)) 
 				&& (net.getY() > animalArray.get(i).getY() - pHeight/2) && (net.getY() < animalArray.get(i).getY() + pHeight/2)){						
 					if (!animalArray.get(i).isDead()){
-						animalArray.get(i).setX(2000);
-						animalArray.get(i).setY(2000);
+						// animalArray.get(i).setX(2000);
+// 						animalArray.get(i).setY(2000);
 						score++;
 						int n = train.getTA().size();
-						addNewTailAnimal(new Penguin());
+						addNewTailAnimal(animalArray.get(i)); // change animal type
 						if (n==0){
 							train.getTA().get(n).setX(train.getX());
 							train.getTA().get(n).setY(train.getY());
@@ -301,19 +315,7 @@ public class GameEnvironment extends JFrame {
 				} // endif
 			}
 				
-			// checks if train crosses paths with animals
-			for(int i = 0; i < animalArray.size(); i++) {					
-				if ((animalArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (animalArray.get(i).getX() + pWidth/2)) 
-				&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){						
-					if (!animalArray.get(i).isDead()){
-						animalArray.get(i).setURL();
-						animalArray.get(i).setDead();
-						animalArray.get(i).getIM();
-						total++;
-						score--;
-					}
-				} // endif
-			}
+	
 		
 			// checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
 			if(train.getX() > maxX || train.getX() < 0 || train.getY() > maxY || train.getY() < 0) {
