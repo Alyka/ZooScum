@@ -23,6 +23,11 @@ public class Animal{
     
     public Animal(){}
     
+    public Animal(int x, int y){
+    	this.Xpos = x;
+    	this.Ypos = y;
+    }
+    
     //get x pos of the cell
     public int getX(){ return Xpos; }
    

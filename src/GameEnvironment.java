@@ -77,30 +77,40 @@ public class GameEnvironment extends JFrame {
 
     private void addNewTrash() {
     	Animal a = new Animal();
-		int Xpos = SHIFT*(int)(Math.random() * (maxX/SHIFT));
-		int Ypos = SHIFT*(int)(Math.random() * (maxY/SHIFT));
+		int Xpos = SHIFT*(int)Math.ceil(Math.random() * (maxX/SHIFT));
+		int Ypos = SHIFT*(int)Math.ceil(Math.random() * (maxY/SHIFT));
 		while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2)) 
 			  && (Ypos > zooY - zHeight/2) && (Ypos < zooY + zHeight/2)){ 
-			Xpos = SHIFT*(int)(Math.random() * (maxX/SHIFT));
-			Ypos = SHIFT*(int)(Math.random() * (maxY/SHIFT));
+			Xpos = SHIFT*(int)Math.ceil(Math.random() * (maxX/SHIFT));
+			Ypos = SHIFT*(int)Math.ceil(Math.random() * (maxY/SHIFT));
 		}
 		a.setX(Xpos);
 		a.setY(Ypos);
 		trashArray.add(a);
-    
     }
     private void addNewBoardAnimal() {
-		Penguin a = new Penguin();
-		int Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
-		int Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
+    	int random = (int)Math.ceil(Math.random() * 2);
+		int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT);
+		int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT);
 		while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2)) 
 			  && (Ypos > zooY - zHeight/2) && (Ypos < zooY + zHeight/2)){ 
-			Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
-			Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
+			Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT);
+			Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT);
 		}
-		a.setX(Xpos);
-		a.setY(Ypos);
-		animalArray.add(a);
+		switch (random){
+    		case 1:
+    			Penguin p = new Penguin(Xpos, Ypos);
+    			animalArray.add(p);
+    			break;
+    		case 2:
+    			Giraffe g = new Giraffe(Xpos, Ypos);
+    			animalArray.add(g);
+    			break;
+    		default:
+    			Penguin a = new Penguin(Xpos, Ypos);
+    			animalArray.add(a);
+    			break;
+    	}	
     }
     /**
        Method addNewTailAnimal adds Animal to ArrayList
