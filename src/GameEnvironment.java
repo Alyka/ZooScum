@@ -50,6 +50,7 @@ public class GameEnvironment extends JFrame {
     //int maxGridY = maxY/64;
     int numAnimals = 3;
     int numTrash = 3;
+    int randomize = (int)Math.ceil(Math.random() * 4); // determines animal type
     private Image trainIM;
     private Image animalIM;
     private Image zooIM;
@@ -89,7 +90,6 @@ public class GameEnvironment extends JFrame {
 		trashArray.add(a);
     }
     private void addNewBoardAnimal() {
-    	int random = (int)Math.ceil(Math.random() * 2);
 		int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT);
 		int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT);
 		while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2)) 
@@ -97,7 +97,7 @@ public class GameEnvironment extends JFrame {
 			Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT);
 			Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT);
 		}
-		switch (random){
+		switch (randomize){
     		case 1:
     			Penguin p = new Penguin(Xpos, Ypos);
     			animalArray.add(p);
@@ -106,9 +106,15 @@ public class GameEnvironment extends JFrame {
     			Giraffe g = new Giraffe(Xpos, Ypos);
     			animalArray.add(g);
     			break;
+    		case 3:
+    			Koala k = new Koala(Xpos, Ypos);
+    			animalArray.add(k);
+    			break;
+    		case 4:
+    			Panda pa = new Panda(Xpos, Ypos);
+    			animalArray.add(pa);
+    			break;
     		default:
-    			Penguin a = new Penguin(Xpos, Ypos);
-    			animalArray.add(a);
     			break;
     	}	
     }
