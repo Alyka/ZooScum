@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -145,10 +144,6 @@ public class GameEnvironment extends JFrame {
 		animationFrame.setSize(maxX, maxY);
 		animationFrame.setVisible(true);
 		gridPanel.requestFocus(); 
-		
-	//open gameEnvr
-	//setBackground
-	//start Animation
     }
 	
 	
@@ -186,8 +181,6 @@ public class GameEnvironment extends JFrame {
 		g.drawString(displayBroom, 870, 60);
 		String displayIns = "Press SPACE to activate broom!";
 		g.drawString(displayIns, 350, 500);
-		//String elapsed = "Time elapsed: " + getTime()/1000;
-		//g.drawString(elapsed, 0, 45);
 	}
 	public void icons(){
 	    URL trainURL = getClass().getResource("graphics/tright.png");//train
