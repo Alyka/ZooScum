@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -50,7 +51,7 @@ public class GameEnvironment extends JFrame {
     //int maxGridY = maxY/64;
     int numAnimals = 3;
     int numTrash = 3;
-    int randomize = (int)Math.ceil(Math.random() * 4); // determines animal type
+    private int numTypes = 4;
     private Image trainIM;
     private Image animalIM;
     private Image zooIM;
@@ -90,6 +91,7 @@ public class GameEnvironment extends JFrame {
 		trashArray.add(a);
     }
     private void addNewBoardAnimal() {
+    	int randomize = (int)Math.ceil(Math.random() * numTypes); // determines animal type
 		int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT);
 		int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT);
 		while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2)) 
@@ -272,11 +274,19 @@ public class GameEnvironment extends JFrame {
 				if ((animalArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (animalArray.get(i).getX() + pWidth/2)) 
 				&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){						
 					if (!animalArray.get(i).isDead()){
-						animalArray.get(i).setURL();
-						animalArray.get(i).setDead();
-						animalArray.get(i).getIM();
-						total++;
-						score--;
+						animalArray.get(i).setX(2000);
+ 						animalArray.get(i).setY(2000);
+						score++;
+						int n = train.getTA().size();
+						addNewTailAnimal(new Penguin()); // change animal type
+						if (n==0){
+							train.getTA().get(n).setX(train.getX());
+							train.getTA().get(n).setY(train.getY());
+						}
+						else{
+							train.getTA().get(n).setX(train.getTA().get(n-1).getX());
+							train.getTA().get(n).setY(train.getTA().get(n-1).getY());
+						}
 					}
 				} // endif
 			}
@@ -286,11 +296,11 @@ public class GameEnvironment extends JFrame {
 				if ((animalArray.get(i).getX() - pWidth/2) < net.getX() && (net.getX() < (animalArray.get(i).getX() + pWidth/2)) 
 				&& (net.getY() > animalArray.get(i).getY() - pHeight/2) && (net.getY() < animalArray.get(i).getY() + pHeight/2)){						
 					if (!animalArray.get(i).isDead()){
-						// animalArray.get(i).setX(2000);
-// 						animalArray.get(i).setY(2000);
+						animalArray.get(i).setX(2000);
+ 						animalArray.get(i).setY(2000);
 						score++;
 						int n = train.getTA().size();
-						addNewTailAnimal(animalArray.get(i)); // change animal type
+						addNewTailAnimal(new Penguin()); // change animal type
 						if (n==0){
 							train.getTA().get(n).setX(train.getX());
 							train.getTA().get(n).setY(train.getY());
