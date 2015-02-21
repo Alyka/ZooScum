@@ -32,7 +32,7 @@ To build the program properly, the user must be careful not to move the files ar
 
 ##Bugs
 * There is a bug correlating to the panel size of our window. While the user can stretch the frame to a larger size, the boarder that the train interacts with isn't visible and doesn't extend, so it can crash unexpectedly.
-
+* Instead of animal picture appearing in the tail of the train, a penguin appears.
 * The game over splash screen doesn't pop up when the train crashes so there is no way to restart the game without completely exiting and reinitializing the game again.
 
 

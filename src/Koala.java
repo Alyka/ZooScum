@@ -23,11 +23,14 @@ public class Koala extends Animal{
     public Koala(){
     	super();
     }
-    
+     // Constructor for koala class, sets x and y position
     public Koala(int x, int y){
     	super(x, y);
     }
 	
+		/*
+		Method getIM - returns image
+	*/
 	@Override
     public Image getIM() {
     	if (super.isDead()){
@@ -47,17 +50,13 @@ public class Koala extends Animal{
     	}
     	return this.pengIM;
     }
-    
+   /*
+    	Method setURL - set blood.png as current state image
+    */
     public void setURL(){ 
     	URL bloodURL = getClass().getResource("graphics/blood.png");//blood
     	this.stateIM = new ImageIcon(bloodURL).getImage();
     }
 
-    public void damage(int dmg){
-    	this.health = this.health - dmg;
-    	if (health >= 0){
-    		this.setDead();
-    	}
-    }
 
 }

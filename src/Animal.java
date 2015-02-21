@@ -37,6 +37,16 @@ public class Animal{
     public Animal(){}
 
     /**
+    
+       /**
+     * Constructor Animal - default constructor, initializes x and y coordinates
+     */
+    public Animal(int x, int y){
+    	this.Xpos = x;
+    	this.Ypos = y;
+    }
+
+    /**
      * getX    - returns horizontal position of train
      *          @return - Xpos integer coordinate
      */

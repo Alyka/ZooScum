@@ -24,11 +24,14 @@ public class Panda extends Animal{
     public Panda(){
     	super();
     }
-    
+        // Constructor for panda class, sets x and y position
     public Panda(int x, int y){
     	super(x, y);
     }
 	
+	/*
+		Method getIM - returns image
+	*/
 	@Override
     public Image getIM() {
     	if (super.isDead()){
@@ -48,17 +51,12 @@ public class Panda extends Animal{
     	}
     	return this.pengIM;
     }
-    
+   /*
+    	Method setURL - set blood.png as current state image
+    */
     public void setURL(){ 
     	URL bloodURL = getClass().getResource("graphics/blood.png");//blood
     	this.stateIM = new ImageIcon(bloodURL).getImage();
-    }
-
-    public void damage(int dmg){
-    	this.health = this.health - dmg;
-    	if (health >= 0){
-    		this.setDead();
-    	}
     }
 
 }

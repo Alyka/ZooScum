@@ -17,46 +17,45 @@ public class Giraffe extends Animal{
     private URL upURL = getClass().getResource("graphics/giraffe/gright.png");
     private URL downURL = getClass().getResource("graphics/giraffe/gleft.png");
     private URL redURL = getClass().getResource("graphics/blood.png");//blood
-    private Image raffeIM = new ImageIcon(rightURL).getImage();
-    Image stateIM = raffeIM;
+    private Image pengIM = new ImageIcon(rightURL).getImage();
+    Image stateIM = pengIM;
     
     public Giraffe(){
     	super();
     }
-    
+     // Constructor for giraffe class, sets x and y position
     public Giraffe(int x, int y){
     	super(x, y);
     }
 	
+		/*
+		Method getIM - returns image
+	*/
 	@Override
     public Image getIM() {
     	if (super.isDead()){
-    		this.raffeIM = new ImageIcon(this.redURL).getImage(); 
+    		this.pengIM = new ImageIcon(this.redURL).getImage(); 
     	}
     	else if (super.getLeft()){
-    		this.raffeIM = new ImageIcon(this.leftURL).getImage();
+    		this.pengIM = new ImageIcon(this.leftURL).getImage();
     	}
     	else if (super.getUp()){
-    		this.raffeIM = new ImageIcon(this.upURL).getImage();
+    		this.pengIM = new ImageIcon(this.upURL).getImage();
     	}
     	else if (super.getDown()){
-    		this.raffeIM = new ImageIcon(this.downURL).getImage();
+    		this.pengIM = new ImageIcon(this.downURL).getImage();
     	}
     	else if (super.getRight()){
-    		this.raffeIM = new ImageIcon(this.rightURL).getImage();
+    		this.pengIM = new ImageIcon(this.rightURL).getImage();
     	}
-    	return this.raffeIM;
+    	return this.pengIM;
     }
-    
+   /*
+    	Method setURL - set blood.png as current state image
+    */
     public void setURL(){ 
     	URL bloodURL = getClass().getResource("graphics/blood.png");//blood
     	this.stateIM = new ImageIcon(bloodURL).getImage();
     }
 
-    public void damage(int dmg){
-    	this.health = this.health - dmg;
-    	if (health >= 0){
-    		this.setDead();
-    	}
-    }
 }

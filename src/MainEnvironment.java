@@ -87,33 +87,6 @@ class MainEnvironment extends JFrame implements ActionListener{
         instructionsFrame.getContentPane().add(instructionsPanel);
         Font font = new Font("Corsiva Hebrew", Font.PLAIN, 20);
         String s = "How to Play";
-        
-       /* public void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(Color.GREEN);
-            g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-            super.paintCompnent(g);
-            
-            /**  code for text formatting borrowed from http://stackoverflow.com/questions/13036057/display-text-in-swing-without-jlabel 
-            
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                                RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setFont(font);
-            
-            FontMetrics fm = g.getFontMetrics(font);
-            
-            int width = fm.stringWidth(s);
-            
-            Dimension d = getSize();
-            
-            //center String/text
-            int cx = (d.width - width) / 2;
-            int cy = (d.height - fm.getHeight()) / 2 + fm.getAscent();
-            
-            g2.drawString(s, cx, cy);
-            
-            
-        } */
         instructionsFrame.add(Back);
         instructionsFrame.pack();
         instructionsFrame.setVisible(true);
